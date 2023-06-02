@@ -6,7 +6,9 @@
   font-family: var(--font-montserrat);
   color: var(--landing-button-text-color);
   text-align: left;
+  padding: 20px;
 }
+
 .button {
   cursor: pointer;
   border: 0;
@@ -67,12 +69,13 @@
 }
 .follow,
 .logoIcon {
-  position: absolute;
+  /* position: absolute; */
   top: 20px;
   left: 20px;
   width: 76px;
   height: 22px;
 }
+
 .follow {
   cursor: pointer;
   border: 0;
@@ -84,7 +87,9 @@
   width: 380px;
   height: 460px;
   overflow: hidden;
+  /* background-image: './picture2-1@2x.png'; */
 }
+
 .followers1,
 .tweets1 {
   position: absolute;
@@ -105,23 +110,7 @@
   width: 118px;
   flex-shrink: 0;
 }
-.button1 {
-  position: absolute;
-  top: 374px;
-  left: 92px;
-  border-radius: 10.31px;
-  background-color: #5cd3a8;
-  box-shadow: 0 3.4369285106658936px 3.44px rgba(0, 0, 0, 0.25);
-  width: 196px;
-  display: flex;
-  flex-direction: row;
-  padding: var(--padding-sm) var(--padding-9xl);
-  box-sizing: border-box;
-  align-items: center;
-  justify-content: center;
-  font-size: var(--font-size-lg);
-  color: var(--landing-button-text-color);
-}
+
 .following {
   position: absolute;
   top: 168px;
@@ -136,11 +125,61 @@
 .followParent {
   /* position: relative; */
   background-color: #fff;
-  width: 400px;
+  width: 380px;
+  height: 460px;
   /* height: 896px; */
   overflow: hidden;
   text-align: left;
   font-size: var(--font-size-xl);
   color: var(--color-thistle);
   font-family: var(--font-montserrat);
+}
+
+/* .circle {
+  width: 80px;
+  height: 80px;
+
+  background: transparent;
+  box-shadow: 0px 4.39163px 4.39163px rgba(0, 0, 0, 0.06), inset 0px -2.19582px 4.39163px #ae7be3, inset 0px 4.39163px 3.29372px #fbf8ff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
+
+.outerRing {
+  /* margin: 0 auto; */
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  /* left: 50%; */
+  top: 178px;
+  background-color: #ebd8ff;
+  box-shadow: 0px 4.39163px 4.39163px rgba(0, 0, 0, 0.06), inset 0px -2.19582px 4.39163px #ae7be3, inset 0px 4.39163px 3.29372px #fbf8ff;
+  border-radius: 50%;
+}
+
+.outerRing::before {
+  content: '';
+  position: absolute;
+  /* outline: 1px solid grey; */
+  top: 10px;
+  left: 10px;
+  width: 60px;
+  height: 60px;
+  background: transparent;
+  border-radius: 50%;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.06), 0px -2px 4px #ae7be3, inset 0px 4px 3px #fbf8ff; /* добавлены внутренние тени */
+}
+
+.innerRing {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #5736a3;
+  /* border: 2px solid black; */
+  border-radius: 50%;
 }
