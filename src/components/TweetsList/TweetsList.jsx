@@ -42,7 +42,7 @@ function TweetsList() {
     <div>
       <h1>Tweets</h1>
       <ToastContainer />
-      {!isError && !isLoading && (
+      {!isError && (
         <ul>
           {tweets.map((tweet) => (
             <Tweet key={tweet.id} tweet={tweet} />
