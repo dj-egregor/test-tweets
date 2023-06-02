@@ -1,8 +1,7 @@
 import { Routes, Route, Link } from 'react-router-dom';
 import './App.css';
-import Tweet from './components/Tweet/Tweet';
+import TweetsList from './components/TweetsList/TweetsList';
 import Home from './components/Home/Home';
-import NotFound from './components/NotFound/NotFound';
 
 function App() {
   return (
@@ -13,8 +12,8 @@ function App() {
       </nav>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/tweets" element={<Tweet />} />
-        <Route path="*" element={<NotFound />} />
+        <Route path="/tweets" element={<TweetsList />} />
+        <Route path="*" element={<Home />} />
       </Routes>
     </>
   );
