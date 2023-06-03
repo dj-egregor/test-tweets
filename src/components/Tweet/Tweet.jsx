@@ -67,7 +67,7 @@ import PropTypes from 'prop-types';
 
 const Tweet = ({ tweet, handleFollowClick, handleUnfollowClick }) => {
   const [isFollowing, setIsFollowing] = useState(tweet.following);
-  console.log(tweet);
+  //   console.log(tweet);
 
   const handleButtonClick = async () => {
     if (isFollowing) {
