@@ -4,6 +4,7 @@ import ReactLoading from 'react-loading';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Tweet from '../Tweet/Tweet';
+import styles from './tweetList.module.css';
 
 function TweetsList() {
   const [tweets, setTweets] = useState([]);
@@ -43,7 +44,7 @@ function TweetsList() {
       <h1>Tweets</h1>
       <ToastContainer />
       {!isError && (
-        <ul>
+        <ul className={styles.tweetList}>
           {tweets.map((tweet) => (
             <Tweet key={tweet.id} tweet={tweet} />
           ))}
