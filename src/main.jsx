@@ -6,7 +6,8 @@ import './index.css';
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter basename="/test-tweets/">
+    {/* <BrowserRouter basename="/test-tweets/"> */}
+    <BrowserRouter>
       <App />
     </BrowserRouter>
   </React.StrictMode>,
