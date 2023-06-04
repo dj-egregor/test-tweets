@@ -1,0 +1,14 @@
+.select {
+  background-color: #f2f2f2;
+  color: #333;
+}
+
+.select:hover,
+.select:focus {
+  border-color: #999;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.option {
+  transition: background-color 0.3s ease;
+}

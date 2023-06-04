@@ -1,96 +1,155 @@
-import { useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
-import ReactLoading from 'react-loading';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { useEffect, useState, useCallback } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
+
+import * as api from '../../shared/users-api';
+import { save, load } from '../../shared/storage';
+
+import Filter from '../Filter/Filter';
 import Tweet from '../Tweet/Tweet';
+
 import styles from './tweetList.module.css';
 
-function TweetsList() {
-  const [tweets, setTweets] = useState([]);
-  const [page, setPage] = useState(1);
-  const [isLastPage, setIsLastPage] = useState(false);
+const TweetsList = () => {
+  const [users, setUsers] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [showLoadMore, setShowLoadMore] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
-
-  const fetchTweets = useCallback(async () => {
-    try {
-      setIsLoading(true);
-      const response = await axios.get(`https://63ebe5f3be929df00ca4038a.mockapi.io/tweets?page=${page}&limit=3`);
-      setTweets((prevTweets) => [...prevTweets, ...response.data]);
-      if (response.data.length < 3) {
-        setIsLastPage(true);
-      }
-    } catch (error) {
-      console.error(error);
-      setIsError(true);
-      toast.error(error.message);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [page]);
-
-  const handleLoadMore = () => {
-    setPage((prevPage) => prevPage + 1);
-  };
+  const [page, setPage] = useState(Number(searchParams.get('page')) || 1);
+  const [filter, setFilter] = useState(searchParams.get('filter') || 'show-all');
 
   useEffect(() => {
-    fetchTweets();
-  }, [fetchTweets, page]);
+    const fetchAllUsers = async () => {
+      try {
+        setLoading(true);
+        const data = await api.getAllUsers();
+        setUsers(data);
+        setFilteredUsers(data);
+
+        const totalPages = Math.ceil(data.length / 3);
+        if (page < totalPages) {
+          setShowLoadMore(true);
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAllUsers();
+  }, []);
+
+  useEffect(() => {
+    searchParams.set('page', page);
+    searchParams.set('filter', filter);
+    setSearchParams(searchParams);
+
+    const savedIds = load('followings');
+    if (filter === 'show-all') {
+      setFilteredUsers(users);
+    }
+    if (filter === 'followings') {
+      setFilteredUsers(users.filter(({ id }) => savedIds.includes(id)));
+    }
+    if (filter === 'follow') {
+      setFilteredUsers(users.filter(({ id }) => !savedIds.includes(id)));
+    }
+
+    const totalPages = Math.ceil(filteredUsers.length / 3);
+
+    if (page < totalPages) {
+      setShowLoadMore(true);
+    } else {
+      setShowLoadMore(false);
+    }
+  }, [filter, filteredUsers.length, page, searchParams, setSearchParams, users]);
+
+  const updateUserFollowers = async (id, data) => {
+    try {
+      const updatedUser = await api.updateUserFollowers(id, data);
+      return updatedUser.followers;
+    } catch (error) {
+      console.error('Error:', error);
+      throw error;
+    }
+  };
 
   const handleFollowClick = async (tweetId) => {
     try {
-      const updatedTweets = tweets.map((tweet) => {
+      const updatedTweets = users.map((tweet) => {
         if (tweet.id === tweetId) {
+          const savedIds = load('followings');
+
+          if (!savedIds.includes(tweetId)) {
+            save('followings', [...savedIds, tweetId]);
+          }
           return { ...tweet, followers: tweet.followers + 1, following: true };
         }
         return tweet;
       });
-      setTweets(updatedTweets);
-      await axios.put(`https://63ebe5f3be929df00ca4038a.mockapi.io/tweets/${tweetId}`, {
+      setUsers(updatedTweets);
+
+      updateUserFollowers(tweetId, {
         followers: updatedTweets.find((tweet) => tweet.id === tweetId).followers,
       });
     } catch (error) {
       console.error(error);
-      toast.error('Failed to update followers');
     }
   };
 
   const handleUnfollowClick = async (tweetId) => {
     try {
-      const updatedTweets = tweets.map((tweet) => {
+      const updatedTweets = users.map((tweet) => {
         if (tweet.id === tweetId) {
+          const savedIds = load('followings');
+
+          if (savedIds.includes(tweetId)) {
+            save(
+              'followings',
+              savedIds.filter((id) => id !== tweetId)
+            );
+          }
           return { ...tweet, followers: tweet.followers - 1, following: false };
         }
         return tweet;
       });
-      setTweets(updatedTweets);
-      await axios.put(`https://63ebe5f3be929df00ca4038a.mockapi.io/tweets/${tweetId}`, {
+      setUsers(updatedTweets);
+
+      updateUserFollowers(tweetId, {
         followers: updatedTweets.find((tweet) => tweet.id === tweetId).followers,
       });
     } catch (error) {
       console.error(error);
-      toast.error('Failed to update followers');
     }
   };
 
-  return (
-    <div>
-      <h1>Tweets</h1>
-      <ToastContainer />
-      {!isError && (
-        <ul className={styles.tweetList}>
-          {tweets.map((tweet) => (
-            <Tweet key={tweet.id} tweet={tweet} handleFollowClick={handleFollowClick} handleUnfollowClick={handleUnfollowClick} />
-          ))}
-          {!isLastPage && !isLoading && <button onClick={handleLoadMore}>Load More</button>}
-        </ul>
-      )}
+  const loadMoreUsers = () => {
+    setPage((prevState) => prevState + 1);
+  };
 
-      {isLoading && <ReactLoading type="spin" color="#1538ff" height={40} width={40} />}
+  const handleFilterChange = useCallback((selectedOption) => {
+    setPage(1);
+    setFilter(selectedOption);
+    console.log('selectedOption', selectedOption);
+  }, []);
+
+  return (
+    <div className={styles.container}>
+      <Filter onFilterChange={handleFilterChange} initialValue={filter} />
+      {loading && <p>...Loading</p>}
+      {filteredUsers.length && !loading ? (
+        filteredUsers.slice(0, page * 3).map((tweet) => <Tweet key={tweet.id} tweet={tweet} handleUnfollowClick={handleUnfollowClick} handleFollowClick={handleFollowClick} />)
+      ) : (
+        <p>NO USERS</p>
+      )}
+      {showLoadMore && <button onClick={loadMoreUsers}>Load more</button>}
+      <button>
+        <Link to="/">Back</Link>
+      </button>
     </div>
   );
-}
+};
 
 export default TweetsList;
