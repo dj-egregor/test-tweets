@@ -19,6 +19,10 @@ const Tweet = ({ tweet, handleFollowClick, handleUnfollowClick }) => {
     }
   };
 
+  function formatingFollowers(count) {
+    return count.toLocaleString().replace(/\s/g, ',');
+  }
+
   return (
     <li className={styles.followParent}>
       <div className={styles.follow}>
@@ -26,7 +30,7 @@ const Tweet = ({ tweet, handleFollowClick, handleUnfollowClick }) => {
           {isFollowing ? 'Following' : 'Follow'}
         </button>
         <div className={styles.tweets}> {tweet.tweets} tweets</div>
-        <div className={styles.followers}>{tweet.followers} Followers</div>
+        <div className={styles.followers}>{formatingFollowers(tweet.followers)} Followers</div>
         <div className={styles.followChild} />
 
         <div className={styles.outerRing}>
