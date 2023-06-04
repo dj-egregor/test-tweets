@@ -1,4 +1,3 @@
-/* Обнуляем отступы и отступы внутри элементов */
 *,
 *::before,
 *::after {
@@ -7,25 +6,21 @@
   box-sizing: border-box;
 }
 
-/* Устанавливаем базовый размер шрифта и линейный декор */
 html {
   font-size: 16px;
   line-height: 1.5;
 }
 
-/* Удаляем стандартный список стилей для маркированных и нумерованных списков */
 ul,
 ol {
   list-style: none;
 }
 
-/* Удаляем подчеркивание ссылок */
 a {
   text-decoration: none;
   color: inherit;
 }
 
-/* Сбрасываем стандартные стили для заголовков */
 h1,
 h2,
 h3,
@@ -35,7 +30,6 @@ h6 {
   font-weight: normal;
 }
 
-/* Сбрасываем стандартные стили для кнопок */
 button {
   border: none;
   background-color: transparent;

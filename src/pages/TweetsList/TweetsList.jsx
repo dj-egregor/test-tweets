@@ -3,9 +3,10 @@ import { Link, useSearchParams } from 'react-router-dom';
 
 import * as api from '../../shared/users-api';
 import { save, load } from '../../shared/storage';
+import ReactLoading from 'react-loading';
 
-import Filter from '../Filter/Filter';
-import Tweet from '../Tweet/Tweet';
+import Filter from '../../components/Filter/Filter';
+import Tweet from '../../components/Tweet/Tweet';
 
 import styles from './tweetList.module.css';
 
@@ -159,13 +160,16 @@ const TweetsList = () => {
 
   return (
     <div className={styles.container} ref={scrollRef}>
-      <Filter onFilterChange={handleFilterChange} initialValue={filter} />
+      <div className={styles.filterWrapper}>
+        <Link className={styles.buttonLink} to="/">
+          Back
+        </Link>
+        <Filter onFilterChange={handleFilterChange} initialValue={filter} />
+      </div>
 
-      <Link className={styles.buttonLink} to="/">
-        Back
-      </Link>
-
-      {loading && <p>...Loading</p>}
+      {loading && (
+        <ReactLoading type="spin" color="#b311ff" height={50} width={50} />
+      )}
       <ul className={styles.tweetList}>
         {filteredUsers.length && !loading ? (
           filteredUsers
@@ -183,7 +187,10 @@ const TweetsList = () => {
         )}
       </ul>
       {showLoadMore && (
-        <button className={styles.button} onClick={loadMoreUsers}>
+        <button
+          className={`${styles.button} ${styles.loadMore}`}
+          onClick={loadMoreUsers}
+        >
           Load more
         </button>
       )}

@@ -1,7 +1,7 @@
-import { Routes, Route, NavLink } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import './App.css';
-import TweetsList from './components/TweetsList/TweetsList';
-import Home from './components/Home/Home';
+import TweetsList from './pages/TweetsList/TweetsList';
+import Home from './pages/Home/Home';
 import NavBar from './components/NavBar/NavBar';
 import styles from './app.module.css';
 
