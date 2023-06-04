@@ -4,10 +4,20 @@ import styles from './navbar.module.css';
 const NavBar = () => {
   return (
     <nav className={styles.navigation}>
-      <NavLink exact className={({ isActive }) => (isActive ? `${styles.active} ${styles.navLink}` : styles.navLink)} to="/">
+      <NavLink
+        className={({ isActive }) =>
+          isActive ? `${styles.active} ${styles.navLink}` : styles.navLink
+        }
+        to="/"
+      >
         Home
       </NavLink>
-      <NavLink exact className={({ isActive }) => (isActive ? `${styles.active} ${styles.navLink}` : styles.navLink)} to="/tweets">
+      <NavLink
+        className={({ isActive }) =>
+          isActive ? `${styles.active} ${styles.navLink}` : styles.navLink
+        }
+        to="/tweets"
+      >
         Tweets
       </NavLink>
     </nav>
