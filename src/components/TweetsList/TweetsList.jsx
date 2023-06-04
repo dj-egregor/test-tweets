@@ -18,7 +18,9 @@ const TweetsList = () => {
   const scrollRef = useRef(null);
 
   const [page, setPage] = useState(Number(searchParams.get('page')) || 1);
-  const [filter, setFilter] = useState(searchParams.get('filter') || 'show-all');
+  const [filter, setFilter] = useState(
+    searchParams.get('filter') || 'show-all'
+  );
 
   useEffect(() => {
     const fetchAllUsers = async () => {
@@ -65,7 +67,14 @@ const TweetsList = () => {
     } else {
       setShowLoadMore(false);
     }
-  }, [filter, filteredUsers.length, page, searchParams, setSearchParams, users]);
+  }, [
+    filter,
+    filteredUsers.length,
+    page,
+    searchParams,
+    setSearchParams,
+    users,
+  ]);
 
   const scrollToBottom = () => {
     if (scrollRef.current) {
@@ -103,7 +112,8 @@ const TweetsList = () => {
       setUsers(updatedTweets);
 
       updateUserFollowers(tweetId, {
-        followers: updatedTweets.find((tweet) => tweet.id === tweetId).followers,
+        followers: updatedTweets.find((tweet) => tweet.id === tweetId)
+          .followers,
       });
     } catch (error) {
       console.error(error);
@@ -129,7 +139,8 @@ const TweetsList = () => {
       setUsers(updatedTweets);
 
       updateUserFollowers(tweetId, {
-        followers: updatedTweets.find((tweet) => tweet.id === tweetId).followers,
+        followers: updatedTweets.find((tweet) => tweet.id === tweetId)
+          .followers,
       });
     } catch (error) {
       console.error(error);
@@ -157,7 +168,16 @@ const TweetsList = () => {
       {loading && <p>...Loading</p>}
       <ul className={styles.tweetList}>
         {filteredUsers.length && !loading ? (
-          filteredUsers.slice(0, page * 3).map((tweet) => <Tweet key={tweet.id} tweet={tweet} handleUnfollowClick={handleUnfollowClick} handleFollowClick={handleFollowClick} />)
+          filteredUsers
+            .slice(0, page * 3)
+            .map((tweet) => (
+              <Tweet
+                key={tweet.id}
+                tweet={tweet}
+                handleUnfollowClick={handleUnfollowClick}
+                handleFollowClick={handleFollowClick}
+              />
+            ))
         ) : (
           <p>NO USERS</p>
         )}
