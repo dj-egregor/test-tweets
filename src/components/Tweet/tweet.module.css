@@ -1,14 +1,3 @@
-.follow1 {
-  position: relative;
-  font-size: var(--font-size-lg);
-  text-transform: uppercase;
-  font-weight: 600;
-  font-family: var(--font-montserrat);
-  color: var(--landing-button-text-color);
-  text-align: left;
-  padding: 20px;
-}
-
 .button {
   cursor: pointer;
   border: 0;
@@ -33,18 +22,21 @@
 .tweets {
   position: absolute;
   top: 284px;
-  left: 124px;
+  left: 50%; /* Перемещаем элементы на половину ширины родительского компонента */
+  transform: translateX(-50%); /* Центрируем элементы относительно их собственной ширины */
+  /* left: 124px; */
   font-size: var(--font-size-xl);
   text-transform: uppercase;
   font-weight: 500;
   font-family: var(--font-montserrat);
   color: var(--color-thistle);
   text-align: left;
+  white-space: nowrap;
 }
 
 .followers {
   top: 324px;
-  left: 83px;
+  /* left: 83px; */
 }
 
 .followChild {
@@ -59,8 +51,8 @@
 
 .boyIcon {
   position: absolute;
-  top: 178px;
-  left: 145.61px;
+  top: 187px;
+  left: 160px;
   border-radius: 85.92px;
   width: 60px;
   height: 60px;
@@ -84,54 +76,6 @@
   height: 22px;
 }
 
-.follow {
-  cursor: pointer;
-
-  /* background-color: transparent; */
-  border-radius: var(--br-xl);
-  background: linear-gradient(114.99deg, #471ca9, #5736a3 69.1%, #4b2a99);
-  box-shadow: -2.5776965618133545px 6.873857021331787px 20.62px rgba(0, 0, 0, 0.23);
-  /* width: 380px;
-  height: 460px; */
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  /* background-image: './picture2-1@2x.png'; */
-}
-
-/* .followers1,
-.tweets1 {
-  position: absolute;
-  top: 284px;
-  left: 124px;
-  text-transform: uppercase;
-  font-weight: 500;
-} */
-/* .followers1 {
-  top: 324px;
-  left: 86px;
-}
-.following1 {
-  position: relative;
-  text-transform: uppercase;
-  font-weight: 600;
-  display: inline-block;
-  width: 118px;
-  flex-shrink: 0;
-} */
-
-/* .following {
-  position: absolute;
-  top: 168px;
-  left: 863px;
-  border-radius: var(--br-xl);
-  background: linear-gradient(114.99deg, #471ca9, #5736a3 69.1%, #4b2a99);
-  box-shadow: -2.5776965618133545px 6.873857021331787px 20.62px rgba(0, 0, 0, 0.23);
-  width: 380px;
-  height: 460px;
-  overflow: hidden;
-} */
-
 .followParent {
   margin: 0;
   padding: 0;
@@ -140,34 +84,21 @@
   background-color: #fff;
   width: 380px;
   height: 460px;
-  /* height: 896px; */
   overflow: hidden;
   text-align: left;
   font-size: var(--font-size-xl);
   color: var(--color-thistle);
   font-family: var(--font-montserrat);
+  border-radius: var(--br-xl);
+  background: linear-gradient(114.99deg, #471ca9, #5736a3 69.1%, #4b2a99);
+  box-shadow: -2.5776965618133545px 6.873857021331787px 20.62px rgba(0, 0, 0, 0.23);
 }
 
-/* .circle {
-  width: 80px;
-  height: 80px;
-
-  background: transparent;
-  box-shadow: 0px 4.39163px 4.39163px rgba(0, 0, 0, 0.06), inset 0px -2.19582px 4.39163px #ae7be3, inset 0px 4.39163px 3.29372px #fbf8ff;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-} */
-
 .outerRing {
-  /* margin: 0 auto; */
   position: absolute;
   width: 80px;
   height: 80px;
-  left: 50%;
-  /* top: 50%; */
-  transform: translate(-50%, -50%);
+  left: 150px;
   top: 178px;
   background-color: #ebd8ff;
   box-shadow: 0px 4.39163px 4.39163px rgba(0, 0, 0, 0.06), inset 0px -2.19582px 4.39163px #ae7be3, inset 0px 4.39163px 3.29372px #fbf8ff;
@@ -177,7 +108,6 @@
 .outerRing::before {
   content: '';
   position: absolute;
-  /* outline: 1px solid grey; */
   top: 10px;
   left: 10px;
   width: 60px;
@@ -195,7 +125,6 @@
   left: 50%;
   transform: translate(-50%, -50%);
   background: #5736a3;
-  /* border: 2px solid black; */
   border-radius: 50%;
 }
 

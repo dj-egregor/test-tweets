@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 
 import * as api from '../../shared/users-api';
@@ -15,6 +15,7 @@ const TweetsList = () => {
   const [loading, setLoading] = useState(false);
   const [showLoadMore, setShowLoadMore] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
+  const scrollRef = useRef(null);
 
   const [page, setPage] = useState(Number(searchParams.get('page')) || 1);
   const [filter, setFilter] = useState(searchParams.get('filter') || 'show-all');
@@ -58,13 +59,23 @@ const TweetsList = () => {
     }
 
     const totalPages = Math.ceil(filteredUsers.length / 3);
-
+    scrollToBottom();
     if (page < totalPages) {
       setShowLoadMore(true);
     } else {
       setShowLoadMore(false);
     }
   }, [filter, filteredUsers.length, page, searchParams, setSearchParams, users]);
+
+  const scrollToBottom = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'end',
+        inline: 'nearest',
+      });
+    }
+  };
 
   const updateUserFollowers = async (id, data) => {
     try {
@@ -136,18 +147,26 @@ const TweetsList = () => {
   }, []);
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} ref={scrollRef}>
       <Filter onFilterChange={handleFilterChange} initialValue={filter} />
+
+      <Link className={styles.buttonLink} to="/">
+        Back
+      </Link>
+
       {loading && <p>...Loading</p>}
-      {filteredUsers.length && !loading ? (
-        filteredUsers.slice(0, page * 3).map((tweet) => <Tweet key={tweet.id} tweet={tweet} handleUnfollowClick={handleUnfollowClick} handleFollowClick={handleFollowClick} />)
-      ) : (
-        <p>NO USERS</p>
+      <ul className={styles.tweetList}>
+        {filteredUsers.length && !loading ? (
+          filteredUsers.slice(0, page * 3).map((tweet) => <Tweet key={tweet.id} tweet={tweet} handleUnfollowClick={handleUnfollowClick} handleFollowClick={handleFollowClick} />)
+        ) : (
+          <p>NO USERS</p>
+        )}
+      </ul>
+      {showLoadMore && (
+        <button className={styles.button} onClick={loadMoreUsers}>
+          Load more
+        </button>
       )}
-      {showLoadMore && <button onClick={loadMoreUsers}>Load more</button>}
-      <button>
-        <Link to="/">Back</Link>
-      </button>
     </div>
   );
 };

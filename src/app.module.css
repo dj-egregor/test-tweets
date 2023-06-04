@@ -1,0 +1,9 @@
+.navigation {
+  display: flex;
+  max-width: 500px;
+}
+
+.container {
+  /* padding: 30px; */
+  /* width: 100%; */
+}
