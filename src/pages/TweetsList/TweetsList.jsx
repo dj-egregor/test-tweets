@@ -46,10 +46,7 @@ const TweetsList = () => {
   }, []);
 
   useEffect(() => {
-    searchParams.set('page', page);
     searchParams.set('filter', filter);
-    setSearchParams(searchParams);
-
     const savedIds = load('followings');
     if (filter === 'show-all') {
       setFilteredUsers(users);
@@ -60,22 +57,20 @@ const TweetsList = () => {
     if (filter === 'follow') {
       setFilteredUsers(users.filter(({ id }) => !savedIds.includes(id)));
     }
+  }, [filter, searchParams, users]);
 
+  useEffect(() => {
+    searchParams.set('page', page);
+    setSearchParams(searchParams);
     const totalPages = Math.ceil(filteredUsers.length / 3);
     scrollToBottom();
+
     if (page < totalPages) {
       setShowLoadMore(true);
     } else {
       setShowLoadMore(false);
     }
-  }, [
-    filter,
-    filteredUsers.length,
-    page,
-    searchParams,
-    setSearchParams,
-    users,
-  ]);
+  }, [filteredUsers.length, page, searchParams, setSearchParams]);
 
   const scrollToBottom = () => {
     if (scrollRef.current) {
@@ -155,7 +150,6 @@ const TweetsList = () => {
   const handleFilterChange = useCallback((selectedOption) => {
     setPage(1);
     setFilter(selectedOption);
-    console.log('selectedOption', selectedOption);
   }, []);
 
   return (
