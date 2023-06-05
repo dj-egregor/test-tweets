@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: 'https://63ebe5f3be929df00ca4038a.mockapi.io/tweets',
+  baseURL: 'https://63ebe5f3be929df00ca4038a.mockapi.io/users',
 });
 
 export const getAllUsers = async () => {
